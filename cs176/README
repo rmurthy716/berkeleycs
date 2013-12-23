@@ -1,0 +1,20 @@
+Taylor Ritenour & Ram Murthy - EM implementation
+
+All txt and pdf plots are stored in ps5data.
+
+Please run from the "hmm" directory, when there:
+       - run "make"
+       - run "java HMM <initial> <sequence>"
+       	 note: <initial would be something like: "initial_parameters_mu.txt"
+	       without any kind of ../ps5data/ or anything in front.
+
+This was run on:
+
+java version "1.7.0_12-ea"
+Java(TM) SE Runtime Environment (build 1.7.0_12-ea-b08)
+Java HotSpot(TM) Server VM (build 24.0-b28, mixed mode)
+
+The plots are output using matplotlib in python 2.7.1+
+
+All plots are already output in the ps5data directory in case
+python does not cooperate.

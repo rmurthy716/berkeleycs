@@ -1,0 +1,1019 @@
+
+/media/stuff/git/cs186/proj/src/java/simpledb/HeapPage.java,1419
+public class HeapPage 15,242
+    HeapPageId pid;HeapPage.pid17,283
+    TupleDesc td;HeapPage.td18,303
+    byte header[HeapPage.header19,321
+    Tuple tuples[HeapPage.tuples20,340
+    int numSlots;HeapPage.numSlots21,360
+    boolean dirty;HeapPage.dirty22,378
+    TransactionId dirtytid;HeapPage.dirtytid23,397
+    byte[] oldData;HeapPage.oldData25,426
+    public HeapPage(HeapPage.HeapPage43,1158
+    public int getNumTuples(HeapPage.getNumTuples70,2100
+    private int getHeaderSize(HeapPage.getHeaderSize79,2470
+    public HeapPage getBeforeImage(HeapPage.getBeforeImage85,2655
+    public void setBeforeImage(HeapPage.setBeforeImage96,2951
+    public HeapPageId getId(HeapPage.getId103,3103
+    private Tuple readNextTuple(HeapPage.readNextTuple110,3215
+    public byte[] getPageData(HeapPage.getPageData152,4677
+    public static byte[] createEmptyPageData(HeapPage.createEmptyPageData222,6744
+    public void deleteTuple(HeapPage.deleteTuple234,7178
+    public void insertTuple(HeapPage.insertTuple249,7757
+    public void markDirty(HeapPage.markDirty268,8271
+    public TransactionId isDirty(HeapPage.isDirty276,8503
+    public int getNumEmptySlots(HeapPage.getNumEmptySlots284,8672
+    public boolean isSlotUsed(HeapPage.isSlotUsed295,8908
+    private void markSlotUsed(HeapPage.markSlotUsed304,9117
+    public Iterator<Tuple> iterator(HeapPage.iterator314,9484
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Page.java,30
+public interface Page 13,405
+
+/media/stuff/git/cs186/proj/src/java/simpledb/AbstractDbFileIterator.java,649
+public abstract class AbstractDbFileIterator 6,141
+	public boolean hasNext(AbstractDbFileIterator.hasNext8,215
+    public Tuple next(AbstractDbFileIterator.next13,372
+    public Tuple next() throws DbException, TransactionAbortedException,AbstractDbFileIterator.TransactionAbortedException13,372
+    public void close(AbstractDbFileIterator.close26,770
+    protected abstract Tuple readNext(AbstractDbFileIterator.readNext33,1021
+    protected abstract Tuple readNext() throws DbException, TransactionAbortedException;AbstractDbFileIterator.TransactionAbortedException33,1021
+    private Tuple next AbstractDbFileIterator.next35,1111
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Aggregate.java,1292
+public class Aggregate 10,224
+    private static final long serialVersionUID Aggregate.serialVersionUID12,267
+    DbIterator child;Aggregate.child33,966
+    int afield;Aggregate.afield34,988
+    int gfield;Aggregate.gfield35,1004
+    Aggregator.Op aop;Aggregate.aop36,1020
+    DbIterator output;Aggregate.output37,1043
+    public Aggregate(Aggregate.Aggregate39,1067
+    public int groupField(Aggregate.groupField66,2012
+    public String groupFieldName(Aggregate.groupFieldName75,2262
+    public int aggregateField(Aggregate.aggregateField83,2432
+    public String aggregateFieldName(Aggregate.aggregateFieldName91,2604
+    public Aggregator.Op aggregateOp(Aggregate.aggregateOp98,2741
+    public static String nameOfAggregatorOp(Aggregate.nameOfAggregatorOp102,2802
+    public void open(Aggregate.open106,2898
+    public void open() throws NoSuchElementException, DbException,Aggregate.DbException106,2898
+    protected Tuple fetchNext(Aggregate.fetchNext118,3418
+    public void rewind(Aggregate.rewind123,3571
+    public TupleDesc getTupleDesc(Aggregate.getTupleDesc138,4216
+    public void close(Aggregate.close142,4292
+    public DbIterator[] getChildren(Aggregate.getChildren147,4355
+    public void setChildren(Aggregate.setChildren152,4465
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Aggregator.java,1202
+public interface Aggregator 9,151
+    static final int NO_GROUPING Aggregator.NO_GROUPING10,202
+    public enum Op Aggregator.Op12,242
+        MIN,Aggregator.Op.MIN13,287
+        MIN, MAX,Aggregator.Op.MAX13,287
+        MIN, MAX, SUM,Aggregator.Op.SUM13,287
+        MIN, MAX, SUM, AVG,Aggregator.Op.AVG13,287
+        MIN, MAX, SUM, AVG, COUNT;Aggregator.Op.COUNT13,287
+        public Aggregator.Op.public21,546
+        public static Aggregator.Op.static21,546
+        public static Op Aggregator.Op.Op21,546
+        public static Op getOp(Aggregator.Op.getOp21,546
+        public static Op getOp(String Aggregator.Op.String21,546
+        public static Op getOp(String s)Aggregator.Op.s21,546
+        public Aggregator.Op.public31,827
+        public static Aggregator.Op.static31,827
+        public static Op Aggregator.Op.Op31,827
+        public static Op getOp(Aggregator.Op.getOp31,827
+        public static Op getOp(int Aggregator.Op.int31,827
+        public static Op getOp(int i)Aggregator.Op.i31,827
+        public Aggregator.Op.public35,918
+        public String Aggregator.Op.String35,918
+        public String toString(Aggregator.Op.toString35,918
+
+/media/stuff/git/cs186/proj/src/java/simpledb/BufferPool.java,1423
+public class BufferPool 19,550
+    public static final int PAGE_SIZE BufferPool.PAGE_SIZE21,621
+    public static final int DEFAULT_PAGES BufferPool.DEFAULT_PAGES26,838
+    private int capacity;BufferPool.capacity31,945
+    private Map<BufferPool.Map36,1051
+    private Map<PageId, Page> BufferPoolPageMap;BufferPool.BufferPoolPageMap36,1051
+    private LinkedList<PageId> LRU;BufferPool.LRU37,1100
+    public BufferPool(BufferPool.BufferPool44,1290
+    public Page getPage(BufferPool.getPage65,2159
+    public void releasePage(BufferPool.releasePage97,3233
+    public void transactionComplete(BufferPool.transactionComplete107,3518
+    public boolean holdsLock(BufferPool.holdsLock113,3752
+    public void transactionComplete(BufferPool.transactionComplete126,4169
+    public void insertTuple(BufferPool.insertTuple146,4971
+        throws DbException, IOException,BufferPool.IOException147,5040
+    public void deleteTuple(BufferPool.deleteTuple166,5866
+    public synchronized void flushAllPages(BufferPool.flushAllPages179,6360
+    public synchronized void discardPage(BufferPool.discardPage188,6689
+    private synchronized void flushPage(BufferPool.flushPage196,6890
+    public synchronized void flushPages(BufferPool.flushPages213,7335
+    private synchronized void updateLRU(BufferPool.updateLRU218,7488
+    private synchronized void evictPage(BufferPool.evictPage230,7775
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Catalog.java,1566
+public class Catalog 17,463
+    public static final class CatalogTable Catalog.CatalogTable19,487
+	private final DbFile file;Catalog.CatalogTable.file21,533
+	private final String name;Catalog.CatalogTable.name22,561
+	private final int id;Catalog.CatalogTable.id23,589
+	private final String pkey;Catalog.CatalogTable.pkey24,612
+	CatalogTable(Catalog.CatalogTable.CatalogTable26,641
+	DbFile getFile(Catalog.CatalogTable.getFile33,796
+	String getName(Catalog.CatalogTable.getName37,838
+	int getId(Catalog.CatalogTable.getId41,880
+	String getPKey(Catalog.CatalogTable.getPKey45,915
+    public HashMap<Catalog.HashMap51,965
+    public HashMap<String, Integer> idmap;Catalog.idmap51,965
+    public HashMap<Catalog.HashMap52,1008
+    public HashMap<Integer, CatalogTable> catmap;Catalog.catmap52,1008
+    public ArrayList<Integer> catlist;Catalog.catlist53,1058
+    public Catalog(Catalog.Catalog60,1172
+    public void addTable(Catalog.addTable75,1851
+    public void addTable(Catalog.addTable85,2138
+    public void addTable(Catalog.addTable96,2578
+    public int getTableId(Catalog.getTableId104,2819
+    public TupleDesc getTupleDesc(Catalog.getTupleDesc116,3309
+    public DbFile getDbFile(Catalog.getDbFile126,3666
+    public String getPrimaryKey(Catalog.getPrimaryKey132,3879
+    public Iterator<Integer> tableIdIterator(Catalog.tableIdIterator137,4007
+    public String getTableName(Catalog.getTableName141,4091
+    public void clear(Catalog.clear147,4258
+    public void loadSchema(Catalog.loadSchema157,4551
+
+/media/stuff/git/cs186/proj/src/java/simpledb/CostCard.java,177
+public class CostCard 7,200
+    public double cost;CostCard.cost9,267
+    public int card;CostCard.card11,341
+    public Vector<LogicalJoinNode> plan;CostCard.plan13,393
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Database.java,733
+public class Database 13,310
+    private static Database _instance Database._instance14,334
+    private final Catalog _catalog;Database._catalog15,390
+    private BufferPool _bufferpool;Database._bufferpool16,426
+    private final static String LOGFILENAME Database.LOGFILENAME18,464
+    private LogFile _logfile;Database._logfile19,517
+    private Database(Database.Database21,548
+    public static LogFile getLogFile(Database.getLogFile35,973
+    public static BufferPool getBufferPool(Database.getBufferPool40,1121
+    public static Catalog getCatalog(Database.getCatalog45,1274
+    public static BufferPool resetBufferPool(Database.resetBufferPool52,1462
+    public static void reset(Database.reset58,1672
+
+/media/stuff/git/cs186/proj/src/java/simpledb/DbException.java,168
+public class DbException 6,88
+    private static final long serialVersionUID DbException.serialVersionUID7,133
+    public DbException(DbException.DbException9,187
+
+/media/stuff/git/cs186/proj/src/java/simpledb/DbFile.java,436
+public interface DbFile 13,393
+    public ArrayList<Page> insertTuple(DbFile.insertTuple42,1517
+        throws DbException, IOException,DbFile.IOException43,1584
+        throws DbException, IOException, TransactionAbortedException;DbFile.TransactionAbortedException43,1584
+    public Page deleteTuple(DbFile.deleteTuple54,1998
+        throws DbException, TransactionAbortedException;DbFile.TransactionAbortedException55,2054
+
+/media/stuff/git/cs186/proj/src/java/simpledb/DbFileIterator.java,822
+public interface DbFileIterator 9,166
+    public void open(DbFileIterator.open14,346
+        throws DbException, TransactionAbortedException;DbFileIterator.TransactionAbortedException15,369
+    public boolean hasNext(DbFileIterator.hasNext18,487
+        throws DbException, TransactionAbortedException;DbFileIterator.TransactionAbortedException19,516
+    public Tuple next(DbFileIterator.next28,841
+        throws DbException, TransactionAbortedException,DbFileIterator.TransactionAbortedException29,865
+        throws DbException, TransactionAbortedException, NoSuchElementException;DbFileIterator.NoSuchElementException29,865
+    public void rewind(DbFileIterator.rewind35,1059
+    public void rewind() throws DbException, TransactionAbortedException;DbFileIterator.TransactionAbortedException35,1059
+
+/media/stuff/git/cs186/proj/src/java/simpledb/DbIterator.java,821
+public interface DbIterator 13,473
+  public void open(DbIterator.open18,694
+      throws DbException, TransactionAbortedException;DbIterator.TransactionAbortedException19,715
+  public boolean hasNext(DbIterator.hasNext25,948
+  public boolean hasNext() throws DbException, TransactionAbortedException;DbIterator.TransactionAbortedException25,948
+  public Tuple next(DbIterator.next35,1354
+  public Tuple next() throws DbException, TransactionAbortedException,DbIterator.TransactionAbortedException35,1354
+  public Tuple next() throws DbException, TransactionAbortedException, NoSuchElementException;DbIterator.NoSuchElementException35,1354
+  public void rewind(DbIterator.rewind42,1625
+  public void rewind() throws DbException, TransactionAbortedException;DbIterator.TransactionAbortedException42,1625
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Debug.java,367
+public class Debug 15,511
+  private static final int DEBUG_LEVEL;Debug.DEBUG_LEVEL16,532
+  private static final int DEFAULT_LEVEL Debug.DEFAULT_LEVEL30,914
+  public static void log(Debug.log33,1022
+  public static boolean isEnabled(Debug.isEnabled41,1247
+  public static boolean isEnabled(Debug.isEnabled46,1392
+  public static void log(Debug.log51,1520
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Delete.java,788
+public class Delete 7,146
+    private static final long serialVersionUID Delete.serialVersionUID9,186
+    private TransactionId tid;Delete.tid10,239
+    private DbIterator child;Delete.child11,270
+    private TupleDesc result;Delete.result12,300
+    private boolean delete;Delete.delete13,330
+    public Delete(Delete.Delete24,665
+    private void makeResultTupleDesc(Delete.makeResultTupleDesc37,899
+    public TupleDesc getTupleDesc(Delete.getTupleDesc45,1072
+    public void open(Delete.open50,1176
+    public void close(Delete.close56,1324
+    public void rewind(Delete.rewind61,1404
+    protected Tuple fetchNext(Delete.fetchNext75,1885
+    public DbIterator[] getChildren(Delete.getChildren94,2399
+    public void setChildren(Delete.setChildren100,2539
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Field.java,30
+public interface Field 8,103
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Filter.java,856
+public class Filter 8,110
+    private static final long serialVersionUID Filter.serialVersionUID10,150
+    private Predicate p;Filter.p11,203
+    private DbIterator child;Filter.child12,228
+    public Filter(Filter.Filter23,517
+    public Predicate getPredicate(Filter.getPredicate33,698
+    public TupleDesc getTupleDesc(Filter.getTupleDesc38,797
+    public void open(Filter.open43,915
+    public void open() throws DbException, NoSuchElementException,Filter.NoSuchElementException43,915
+    public void close(Filter.close49,1077
+    public void rewind(Filter.rewind54,1157
+    protected Tuple fetchNext(Filter.fetchNext68,1690
+            TransactionAbortedException,Filter.TransactionAbortedException69,1753
+    public DbIterator[] getChildren(Filter.getChildren81,1986
+    public void setChildren(Filter.setChildren87,2126
+
+/media/stuff/git/cs186/proj/src/java/simpledb/HashEquiJoin.java,1653
+public class HashEquiJoin 8,111
+    private static final long serialVersionUID HashEquiJoin.serialVersionUID10,157
+    private JoinPredicate pred;HashEquiJoin.pred11,210
+    private DbIterator child1,HashEquiJoin.child112,242
+    private DbIterator child1, child2;HashEquiJoin.child212,242
+    private TupleDesc comboTD;HashEquiJoin.comboTD13,281
+    transient private Tuple t1 HashEquiJoin.t114,312
+    transient private Tuple t2 HashEquiJoin.t215,351
+    public HashEquiJoin(HashEquiJoin.HashEquiJoin28,751
+    public JoinPredicate getJoinPredicate(HashEquiJoin.getJoinPredicate35,1003
+    public TupleDesc getTupleDesc(HashEquiJoin.getTupleDesc39,1077
+    public String getJoinField1Name(HashEquiJoin.getJoinField1Name43,1150
+    public String getJoinField2Name(HashEquiJoin.getJoinField2Name48,1273
+    HashMap<HashEquiJoin.HashMap53,1400
+    HashMap<Object, ArrayList<Tuple>> map HashEquiJoin.map53,1400
+    public final static int MAP_SIZE HashEquiJoin.MAP_SIZE54,1485
+    private boolean loadMap(HashEquiJoin.loadMap56,1532
+    public void open(HashEquiJoin.open75,2085
+    public void open() throws DbException, NoSuchElementException,HashEquiJoin.NoSuchElementException75,2085
+    public void close(HashEquiJoin.close82,2266
+    public void rewind(HashEquiJoin.rewind92,2466
+    transient Iterator<Tuple> listIt HashEquiJoin.listIt97,2598
+    private Tuple processList(HashEquiJoin.processList117,3552
+    protected Tuple fetchNext(HashEquiJoin.fetchNext134,4040
+    public DbIterator[] getChildren(HashEquiJoin.getChildren164,4809
+    public void setChildren(HashEquiJoin.setChildren169,4929
+
+/media/stuff/git/cs186/proj/src/java/simpledb/HeapFile.java,1913
+public class HeapFile 16,458
+    private File f;HeapFile.f26,683
+    private TupleDesc td;HeapFile.td27,703
+    private int id;HeapFile.id28,729
+    private class PageEntry HeapFile.PageEntry30,750
+	public Page page;HeapFile.PageEntry.page31,780
+	public TupleDesc td;HeapFile.PageEntry.td32,799
+	public int freespace;HeapFile.PageEntry.freespace33,821
+	public PageEntry(HeapFile.PageEntry.PageEntry35,845
+    private ArrayList<PageEntry> pages;HeapFile.pages43,1024
+    public HeapFile(HeapFile.HeapFile45,1069
+    public File getFile(HeapFile.getFile57,1367
+    public int getId(HeapFile.getId70,1879
+    public TupleDesc getTupleDesc(HeapFile.getTupleDesc79,2053
+    public Page readPage(HeapFile.readPage84,2146
+    public void writePage(HeapFile.writePage101,2581
+    public int numPages(HeapFile.numPages120,3086
+    public ArrayList<Page> insertTuple(HeapFile.insertTuple125,3216
+            throws DbException, IOException,HeapFile.IOException126,3283
+    public Page deleteTuple(HeapFile.deleteTuple154,4050
+    public DbFileIterator iterator(HeapFile.iterator167,4402
+    private class HeapFileIterator HeapFile.HeapFileIterator171,4500
+	private TransactionId tid;HeapFile.HeapFileIterator.tid174,4599
+	private int pageNumber;HeapFile.HeapFileIterator.pageNumber175,4628
+	public HeapFileIterator(HeapFile.HeapFileIterator.HeapFileIterator177,4655
+	private HeapPage load(HeapFile.HeapFileIterator.load181,4726
+	public void open(HeapFile.HeapFileIterator.open198,5096
+	public boolean hasNext(HeapFile.HeapFileIterator.hasNext205,5265
+	public Tuple next(HeapFile.HeapFileIterator.next222,5617
+	public Tuple next() throws DbException, TransactionAbortedException,HeapFile.HeapFileIterator.TransactionAbortedException222,5617
+	public void rewind(HeapFile.HeapFileIterator.rewind240,6113
+	public void close(HeapFile.HeapFileIterator.close246,6227
+
+/media/stuff/git/cs186/proj/src/java/simpledb/HeapFileEncoder.java,289
+public class HeapFileEncoder 14,344
+  public static void convert(HeapFileEncoder.convert31,1018
+      public static void convert(HeapFileEncoder.convert54,1965
+  public static void convert(HeapFileEncoder.convert63,2282
+  public static void convert(HeapFileEncoder.convert90,3305
+
+/media/stuff/git/cs186/proj/src/java/simpledb/HeapPageId.java,449
+public class HeapPageId 4,66
+    public int tableId;HeapPageId.tableId6,111
+    public int pgNo;HeapPageId.pgNo7,135
+    public HeapPageId(HeapPageId.HeapPageId16,382
+    public int getTableId(HeapPageId.getTableId22,537
+    public int pageNumber(HeapPageId.pageNumber30,701
+    public int hashCode(HeapPageId.hashCode40,1010
+    public boolean equals(HeapPageId.equals51,1303
+    public int[] serialize(HeapPageId.serialize63,1740
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Insert.java,872
+public class Insert 7,123
+    private static final long serialVersionUID Insert.serialVersionUID9,163
+    private TransactionId tid;Insert.tid10,216
+    private DbIterator child;Insert.child11,247
+    private int tableid;Insert.tableid12,277
+    private TupleDesc result;Insert.result13,302
+    private boolean insert;Insert.insert14,332
+    private Tuple shit;Insert.shit15,360
+    public Insert(Insert.Insert30,810
+    private void makeResultTuple(Insert.makeResultTuple42,1063
+    public TupleDesc getTupleDesc(Insert.getTupleDesc50,1232
+    public void open(Insert.open54,1305
+    public void close(Insert.close59,1422
+    public void rewind(Insert.rewind63,1471
+    protected Tuple fetchNext(Insert.fetchNext80,2201
+    public DbIterator[] getChildren(Insert.getChildren104,2770
+    public void setChildren(Insert.setChildren109,2879
+
+/media/stuff/git/cs186/proj/src/java/simpledb/IntegerAggregator.java,1096
+public class IntegerAggregator 9,172
+    private static final long serialVersionUID IntegerAggregator.serialVersionUID11,228
+    private int gbfield;IntegerAggregator.gbfield28,790
+    private Type gbfieldtype;IntegerAggregator.gbfieldtype29,815
+    private int afield;IntegerAggregator.afield30,845
+    private Op what;IntegerAggregator.what31,869
+    private HashMap<IntegerAggregator.HashMap32,890
+    private HashMap<Field, IntField> ret;IntegerAggregator.ret32,890
+    private HashMap<IntegerAggregator.HashMap33,932
+    private HashMap<Field, Integer> countmap;IntegerAggregator.countmap33,932
+    private IntField nogroup;IntegerAggregator.nogroup34,978
+    private int count;IntegerAggregator.count35,1008
+    private TupleDesc td;IntegerAggregator.td36,1031
+    public IntegerAggregator(IntegerAggregator.IntegerAggregator38,1058
+    public void mergeTupleIntoGroup(IntegerAggregator.mergeTupleIntoGroup56,1573
+    private ArrayList<Tuple> maketuples(IntegerAggregator.maketuples132,3732
+    public DbIterator iterator(IntegerAggregator.iterator176,5095
+
+/media/stuff/git/cs186/proj/src/java/simpledb/IntField.java,549
+public class IntField 8,97
+	private static final long serialVersionUID IntField.serialVersionUID10,143
+	private int value;IntField.value12,195
+    public int getValue(IntField.getValue14,216
+    public IntField(IntField.IntField23,357
+    public String toString(IntField.toString27,412
+    public int hashCode(IntField.hashCode31,490
+    public boolean equals(IntField.equals35,547
+    public void serialize(IntField.serialize39,646
+    public boolean compare(IntField.compare50,983
+	public Type getType(IntField.getType83,1681
+
+/media/stuff/git/cs186/proj/src/java/simpledb/IntHistogram.java,712
+public class IntHistogram 5,107
+    private int[] buckets;IntHistogram.buckets24,1005
+    private int min;IntHistogram.min25,1032
+    private int max;IntHistogram.max26,1053
+    private int numbuckets;IntHistogram.numbuckets27,1074
+    private int width;IntHistogram.width28,1102
+    private int count;IntHistogram.count29,1125
+    public IntHistogram(IntHistogram.IntHistogram31,1149
+    private int loc(IntHistogram.loc40,1396
+    public void addValue(IntHistogram.addValue49,1665
+    public double estimateSelectivity(IntHistogram.estimateSelectivity64,2118
+    public double avgSelectivity(IntHistogram.avgSelectivity136,4132
+    public String toString(IntHistogram.toString143,4290
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Join.java,1189
+public class Join 8,111
+    private static final long serialVersionUID Join.serialVersionUID10,149
+    private JoinPredicate p;Join.p11,202
+    private DbIterator child1;Join.child112,231
+    private DbIterator child2;Join.child213,262
+    private boolean existsOuterTuples Join.existsOuterTuples15,294
+    private boolean getOuterTuples Join.getOuterTuples16,340
+    private Tuple outerTuple Join.outerTuple17,383
+    public Join(Join.Join29,780
+    public JoinPredicate getJoinPredicate(Join.getJoinPredicate40,1003
+    public String getJoinField1Name(Join.getJoinField1Name49,1214
+    public String getJoinField2Name(Join.getJoinField2Name58,1467
+    public TupleDesc getTupleDesc(Join.getTupleDesc66,1707
+    public void open(Join.open73,1907
+    public void open() throws DbException, NoSuchElementException,Join.NoSuchElementException73,1907
+    public void close(Join.close78,2038
+    public void rewind(Join.rewind82,2087
+    protected Tuple fetchNext(Join.fetchNext106,3155
+    private Tuple joinTuple(Join.joinTuple131,3744
+    public DbIterator[] getChildren(Join.getChildren149,4158
+    public void setChildren(Join.setChildren155,4312
+
+/media/stuff/git/cs186/proj/src/java/simpledb/JoinOptimizer.java,1236
+public class JoinOptimizer 13,265
+    LogicalPlan p;JoinOptimizer.p14,294
+    Vector<LogicalJoinNode> joins;JoinOptimizer.joins15,313
+    HashMap<JoinOptimizer.HashMap16,348
+    HashMap<Integer, Set<Set<LogicalJoinNode> > > subsets;JoinOptimizer.subsets16,348
+    public JoinOptimizer(JoinOptimizer.JoinOptimizer26,590
+    public static DbIterator instantiateJoin(JoinOptimizer.instantiateJoin47,1416
+    public double estimateJoinCost(JoinOptimizer.estimateJoinCost105,3506
+    public int estimateJoinCardinality(JoinOptimizer.estimateJoinCardinality136,4721
+    public static int estimateTableJoinCardinality(JoinOptimizer.estimateTableJoinCardinality151,5416
+    public <T> Set<Set<T>> enumerateSubsets(JoinOptimizer.enumerateSubsets175,6316
+    private Set<Set<LogicalJoinNode> > getSub(JoinOptimizer.getSub193,6919
+    public Vector<LogicalJoinNode> orderJoins(JoinOptimizer.orderJoins221,8106
+    @SuppressWarnings(JoinOptimizer.@SuppressWarnings307,11628
+    private boolean doesJoin(JoinOptimizer.doesJoin431,16633
+    private boolean isPkey(JoinOptimizer.isPkey449,17196
+    private boolean hasPkey(JoinOptimizer.hasPkey460,17520
+    private void printJoins(JoinOptimizer.printJoins486,18495
+
+/media/stuff/git/cs186/proj/src/java/simpledb/JoinPredicate.java,581
+public class JoinPredicate 9,182
+    private static final long serialVersionUID JoinPredicate.serialVersionUID11,236
+    private int field1;JoinPredicate.field113,290
+    private int field2;JoinPredicate.field214,314
+    private Predicate.Op op;JoinPredicate.op15,338
+    public JoinPredicate(JoinPredicate.JoinPredicate31,962
+    public boolean filter(JoinPredicate.filter44,1332
+    public int getField1(JoinPredicate.getField150,1533
+    public int getField2(JoinPredicate.getField254,1601
+    public Predicate.Op getOperator(JoinPredicate.getOperator58,1669
+
+/media/stuff/git/cs186/proj/src/java/simpledb/LogFile.java,1979
+public class LogFile 74,2185
+    final File logFile;LogFile.logFile76,2209
+    private RandomAccessFile raf;LogFile.raf77,2233
+    Boolean recoveryUndecided;LogFile.recoveryUndecided78,2267
+    static final int ABORT_RECORD LogFile.ABORT_RECORD80,2344
+    static final int COMMIT_RECORD LogFile.COMMIT_RECORD81,2383
+    static final int UPDATE_RECORD LogFile.UPDATE_RECORD82,2423
+    static final int BEGIN_RECORD LogFile.BEGIN_RECORD83,2463
+    static final int CHECKPOINT_RECORD LogFile.CHECKPOINT_RECORD84,2502
+    static final long NO_CHECKPOINT_ID LogFile.NO_CHECKPOINT_ID85,2546
+    final static int INT_SIZE LogFile.INT_SIZE87,2592
+    final static int LONG_SIZE LogFile.LONG_SIZE88,2627
+    long currentOffset LogFile.currentOffset90,2664
+    int totalRecords LogFile.totalRecords92,2732
+    HashMap<LogFile.HashMap94,2796
+    HashMap<Long,Long> tidToFirstLogRecord LogFile.tidToFirstLogRecord94,2796
+    public LogFile(LogFile.LogFile107,3419
+    void preAppend(LogFile.preAppend126,4202
+    public synchronized int getTotalRecords(LogFile.getTotalRecords138,4541
+    public void logAbort(LogFile.logAbort146,4799
+    public synchronized void logCommit(LogFile.logCommit176,5796
+    public  synchronized void logWrite(LogFile.logWrite197,6564
+    void writePageData(LogFile.writePageData221,7284
+    Page readPageData(LogFile.readPageData249,8196
+    public synchronized  void logXactionBegin(LogFile.logXactionBegin302,10079
+    public void logCheckpoint(LogFile.logCheckpoint320,10769
+    public synchronized void logTruncate(LogFile.logTruncate362,12601
+    public void rollback(LogFile.rollback464,16166
+        throws NoSuchElementException, IOException LogFile.IOException465,16210
+    public synchronized void shutdown(LogFile.shutdown478,16611
+    public void recover(LogFile.recover492,17127
+    public void print(LogFile.print502,17435
+    public  synchronized void force(LogFile.force506,17518
+
+/media/stuff/git/cs186/proj/src/java/simpledb/LogicalFilterNode.java,435
+public class LogicalFilterNode 9,248
+    public String tableAlias;LogicalFilterNode.tableAlias11,368
+    public Predicate.Op p;LogicalFilterNode.p14,438
+    public String c;LogicalFilterNode.c17,525
+    public String fieldPureName;LogicalFilterNode.fieldPureName20,644
+    public String fieldQuantifiedName;LogicalFilterNode.fieldQuantifiedName22,682
+    public LogicalFilterNode(LogicalFilterNode.LogicalFilterNode24,726
+
+/media/stuff/git/cs186/proj/src/java/simpledb/LogicalJoinNode.java,940
+public class LogicalJoinNode LogicalFilterNode.LogicalJoinNode5,120
+    public String t1Alias;LogicalJoinNode.t1Alias8,265
+    public String t2Alias;LogicalJoinNode.t2Alias11,409
+    public String f1PureName;LogicalJoinNode.f1PureName14,550
+    public String f1QuantifiedName;LogicalJoinNode.f1QuantifiedName16,581
+    public String f2PureName;LogicalJoinNode.f2PureName19,705
+    public String f2QuantifiedName;LogicalJoinNode.f2QuantifiedName21,740
+    public Predicate.Op p;LogicalJoinNode.p24,807
+    public LogicalJoinNode(LogicalJoinNode.LogicalJoinNode26,835
+    public LogicalJoinNode(LogicalJoinNode.LogicalJoinNode29,873
+    public LogicalJoinNode swapInnerOuter(LogicalJoinNode.swapInnerOuter49,1631
+    @Override public boolean equals(LogicalJoinNode.equals66,2261
+    @Override public String toString(LogicalJoinNode.toString71,2507
+    @Override public int hashCode(LogicalJoinNode.hashCode75,2634
+
+/media/stuff/git/cs186/proj/src/java/simpledb/LogicalPlan.java,2107
+public class LogicalPlan 24,810
+    private Vector<LogicalJoinNode> joins;LogicalPlan.joins25,837
+    private Vector<LogicalScanNode> tables;LogicalPlan.tables26,880
+    private Vector<LogicalFilterNode> filters;LogicalPlan.filters27,924
+    private HashMap<LogicalPlan.HashMap28,971
+    private HashMap<String,DbIterator> subplanMap;LogicalPlan.subplanMap28,971
+    private HashMap<LogicalPlan.HashMap29,1022
+    private HashMap<String,Integer> tableMap;LogicalPlan.tableMap29,1022
+    private Vector<LogicalSelectListNode> selectList;LogicalPlan.selectList31,1069
+    private String groupByField LogicalPlan.groupByField32,1123
+    private boolean hasAgg LogicalPlan.hasAgg33,1163
+    private String aggOp;LogicalPlan.aggOp34,1199
+    private String aggField;LogicalPlan.aggField35,1225
+    private boolean oByAsc,LogicalPlan.oByAsc36,1254
+    private boolean oByAsc, hasOrderBy LogicalPlan.hasOrderBy36,1254
+    private String oByField;LogicalPlan.oByField37,1302
+    private String query;LogicalPlan.query38,1331
+    public LogicalPlan(LogicalPlan.LogicalPlan42,1442
+    public void setQuery(LogicalPlan.setQuery59,2086
+    public String getQuery(LogicalPlan.getQuery65,2253
+    public Integer getTableId(LogicalPlan.getTableId75,2669
+    public HashMap<LogicalPlan.HashMap79,2762
+    public HashMap<String,Integer> getTableAliasToIdMapping(LogicalPlan.getTableAliasToIdMapping79,2762
+    public void addFilter(LogicalPlan.addFilter98,3627
+    public void addJoin(LogicalPlan.addJoin120,4574
+    public void addJoin(LogicalPlan.addJoin148,6039
+    public void addScan(LogicalPlan.addScan165,6821
+    public void addProjectField(LogicalPlan.addProjectField177,7378
+    public void addAggregate(LogicalPlan.addAggregate196,8160
+    public void addOrderBy(LogicalPlan.addOrderBy212,8790
+    String disambiguateName(LogicalPlan.disambiguateName226,9462
+    static Aggregator.Op getAggOp(LogicalPlan.getAggOp264,11042
+    public DbIterator physicalPlan(LogicalPlan.physicalPlan287,12378
+    public static void main(LogicalPlan.main484,20966
+
+/media/stuff/git/cs186/proj/src/java/simpledb/LogicalScanNode.java,227
+public class LogicalScanNode LogicalPlan.LogicalScanNode5,103
+    public String alias;LogicalScanNode.alias8,203
+    public int t;LogicalScanNode.t12,336
+    public LogicalScanNode(LogicalScanNode.LogicalScanNode14,355
+
+/media/stuff/git/cs186/proj/src/java/simpledb/LogicalSelectListNode.java,247
+public class LogicalSelectListNode 6,114
+    public String fname;LogicalSelectListNode.fname10,275
+    public String aggOp;LogicalSelectListNode.aggOp13,365
+    public LogicalSelectListNode(LogicalSelectListNode.LogicalSelectListNode15,391
+
+/media/stuff/git/cs186/proj/src/java/simpledb/LogicalSubplanJoinNode.java,437
+public class LogicalSubplanJoinNode 7,221
+    DbIterator subPlan;LogicalSubplanJoinNode.subPlan10,343
+    public LogicalSubplanJoinNode(LogicalSubplanJoinNode.LogicalSubplanJoinNode12,372
+    @Override public int hashCode(LogicalSubplanJoinNode.hashCode24,772
+    @Override public boolean equals(LogicalSubplanJoinNode.equals28,901
+    public LogicalSubplanJoinNode swapInnerOuter(LogicalSubplanJoinNode.swapInnerOuter36,1232
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Operator.java,913
+public abstract class Operator 10,275
+    private static final long serialVersionUID Operator.serialVersionUID12,331
+    public boolean hasNext(Operator.hasNext14,385
+    public Tuple next(Operator.next23,661
+    public Tuple next() throws DbException, TransactionAbortedException,Operator.TransactionAbortedException23,661
+    protected abstract Tuple fetchNext(Operator.fetchNext44,1315
+            TransactionAbortedException;Operator.TransactionAbortedException45,1376
+    public void close(Operator.close51,1587
+    private Tuple next Operator.next57,1726
+    private boolean open Operator.open58,1757
+    private int estimatedCardinality Operator.estimatedCardinality59,1791
+    public void open(Operator.open61,1834
+    public int getEstimatedCardinality(Operator.getEstimatedCardinality93,2944
+    protected void setEstimatedCardinality(Operator.setEstimatedCardinality101,3135
+
+/media/stuff/git/cs186/proj/src/java/simpledb/OperatorCardinality.java,579
+public class OperatorCardinality 12,239
+    public static boolean updateOperatorCardinality(OperatorCardinality.updateOperatorCardinality21,440
+    private static boolean updateFilterCardinality(OperatorCardinality.updateFilterCardinality55,2016
+    private static boolean updateJoinCardinality(OperatorCardinality.updateJoinCardinality91,3675
+    private static boolean updateHashEquiJoinCardinality(OperatorCardinality.updateHashEquiJoinCardinality147,6121
+    private static boolean updateAggregateCardinality(OperatorCardinality.updateAggregateCardinality204,8602
+
+/media/stuff/git/cs186/proj/src/java/simpledb/OrderBy.java,1534
+public class OrderBy 8,113
+    private static final long serialVersionUID OrderBy.serialVersionUID10,154
+    private DbIterator child;OrderBy.child11,207
+    private TupleDesc td;OrderBy.td12,237
+    private ArrayList<Tuple> childTups OrderBy.childTups13,263
+    private int orderByField;OrderBy.orderByField14,328
+    private String orderByFieldName;OrderBy.orderByFieldName15,358
+    private Iterator<Tuple> it;OrderBy.it16,395
+    private boolean asc;OrderBy.asc17,427
+    public OrderBy(OrderBy.OrderBy29,762
+    public boolean isASC(OrderBy.isASC37,1035
+    public int getOrderByField(OrderBy.getOrderByField42,1097
+    public String getOrderFieldName(OrderBy.getOrderFieldName47,1181
+    public TupleDesc getTupleDesc(OrderBy.getTupleDesc52,1267
+    public void open(OrderBy.open56,1331
+    public void open() throws DbException, NoSuchElementException,OrderBy.NoSuchElementException56,1331
+    public void close(OrderBy.close67,1744
+    public void rewind(OrderBy.rewind72,1819
+    protected Tuple fetchNext(OrderBy.fetchNext83,2155
+            TransactionAbortedException,OrderBy.TransactionAbortedException84,2218
+    public DbIterator[] getChildren(OrderBy.getChildren92,2406
+    public void setChildren(OrderBy.setChildren97,2515
+class TupleComparator 103,2612
+    int field;TupleComparator.field104,2665
+    boolean asc;TupleComparator.asc105,2680
+    public TupleComparator(TupleComparator.TupleComparator107,2698
+    public int compare(TupleComparator.compare112,2810
+
+/media/stuff/git/cs186/proj/src/java/simpledb/PageId.java,31
+public interface PageId 6,119
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Parser.java,3214
+public class Parser 12,215
+    static boolean explain Parser.explain13,237
+    public LogicalPlan parseQueryLogicalPlan(Parser.parseQueryLogicalPlan135,5526
+            throws IOException, Zql.ParseException,Parser.ParseException136,5600
+    private Transaction curtrans Parser.curtrans273,11229
+    private boolean inUserTrans Parser.inUserTrans274,11270
+    public Query handleQueryStatement(Parser.handleQueryStatement276,11312
+            throws TransactionAbortedException, DbException,Parser.DbException277,11379
+            throws TransactionAbortedException, DbException, IOException,Parser.IOException277,11379
+            simpledb.ParsingException,Parser.ParsingException278,11453
+    public Query handleInsertStatement(Parser.handleInsertStatement324,13204
+            throws TransactionAbortedException, DbException,Parser.DbException325,13273
+            throws TransactionAbortedException, DbException, IOException,Parser.IOException325,13273
+            simpledb.ParsingException,Parser.ParsingException326,13347
+    public Query handleDeleteStatement(Parser.handleDeleteStatement398,16315
+            throws TransactionAbortedException, DbException,Parser.DbException399,16384
+            throws TransactionAbortedException, DbException, IOException,Parser.IOException399,16384
+            simpledb.ParsingException,Parser.ParsingException400,16458
+    public void handleTransactStatement(Parser.handleTransactStatement431,17595
+            throws TransactionAbortedException, DbException,Parser.DbException432,17652
+            throws TransactionAbortedException, DbException, IOException,Parser.IOException432,17652
+            simpledb.ParsingException,Parser.ParsingException433,17726
+    public void setTransaction(Parser.setTransaction488,20021
+    public Transaction getTransaction(Parser.getTransaction492,20098
+    public void processNextStatement(Parser.processNextStatement496,20172
+    public void processNextStatement(Parser.processNextStatement505,20460
+    public static final String[] SQL_COMMANDS Parser.SQL_COMMANDS583,23828
+    public static void main(Parser.main587,24037
+    static final String usage Parser.usage599,24329
+    protected void shutdown(Parser.shutdown601,24417
+    protected boolean interactive Parser.interactive605,24491
+    protected void start(Parser.start607,24534
+class TupleArrayIterator 699,28412
+    private static final long serialVersionUID TupleArrayIterator.serialVersionUID703,28479
+    ArrayList<Tuple> tups;TupleArrayIterator.tups704,28532
+    Iterator<Tuple> it TupleArrayIterator.it705,28559
+    public TupleArrayIterator(TupleArrayIterator.TupleArrayIterator707,28591
+    public void open(TupleArrayIterator.open711,28679
+    public boolean hasNext(TupleArrayIterator.hasNext716,28845
+    public Tuple next(TupleArrayIterator.next727,29214
+    public Tuple next() throws DbException, TransactionAbortedException,TupleArrayIterator.TransactionAbortedException727,29214
+    public void rewind(TupleArrayIterator.rewind738,29496
+    public TupleDesc getTupleDesc(TupleArrayIterator.getTupleDesc745,29686
+    public void close(TupleArrayIterator.close752,29818
+
+/media/stuff/git/cs186/proj/src/java/simpledb/ParsingException.java,262
+public class ParsingException 4,47
+    public ParsingException(ParsingException.ParsingException5,97
+    public ParsingException(ParsingException.ParsingException9,172
+    private static final long serialVersionUID ParsingException.serialVersionUID16,263
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Permissions.java,335
+public class Permissions 8,211
+  int permLevel;Permissions.permLevel9,238
+  private Permissions(Permissions.Permissions11,256
+  public String toString(Permissions.toString15,332
+  public static final Permissions READ_ONLY Permissions.READ_ONLY23,489
+  public static final Permissions READ_WRITE Permissions.READ_WRITE24,555
+
+/media/stuff/git/cs186/proj/src/java/simpledb/PlanCache.java,613
+public class PlanCache 8,201
+    HashMap<PlanCache.HashMap9,226
+    HashMap<Set<LogicalJoinNode>,Vector<LogicalJoinNode>> bestOrders=PlanCache.bestOrders9,226
+    HashMap<PlanCache.HashMap10,357
+    HashMap<Set<LogicalJoinNode>,Double> bestCosts=PlanCache.bestCosts10,357
+    HashMap<PlanCache.HashMap11,453
+    HashMap<Set<LogicalJoinNode>,Integer> bestCardinalities PlanCache.bestCardinalities11,453
+    void addPlan(PlanCache.addPlan21,1079
+    Vector<LogicalJoinNode> getOrder(PlanCache.getOrder31,1505
+    double getCost(PlanCache.getCost39,1827
+    int getCard(PlanCache.getCard47,2151
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Predicate.java,1703
+public class Predicate 8,114
+    private static final long serialVersionUID Predicate.serialVersionUID10,164
+    public enum Op Predicate.Op13,278
+        EQUALS,Predicate.Op.EQUALS14,323
+        EQUALS, GREATER_THAN,Predicate.Op.GREATER_THAN14,323
+        EQUALS, GREATER_THAN, LESS_THAN,Predicate.Op.LESS_THAN14,323
+        EQUALS, GREATER_THAN, LESS_THAN, LESS_THAN_OR_EQ,Predicate.Op.LESS_THAN_OR_EQ14,323
+        EQUALS, GREATER_THAN, LESS_THAN, LESS_THAN_OR_EQ, GREATER_THAN_OR_EQ,Predicate.Op.GREATER_THAN_OR_EQ14,323
+        EQUALS, GREATER_THAN, LESS_THAN, LESS_THAN_OR_EQ, GREATER_THAN_OR_EQ, LIKE,Predicate.Op.LIKE14,323
+        EQUALS, GREATER_THAN, LESS_THAN, LESS_THAN_OR_EQ, GREATER_THAN_OR_EQ, LIKE, NOT_EQUALS;Predicate.Op.NOT_EQUALS14,323
+        public Predicate.Op.public23,623
+        public static Predicate.Op.static23,623
+        public static Op Predicate.Op.Op23,623
+        public static Op getOp(Predicate.Op.getOp23,623
+        public static Op getOp(int Predicate.Op.int23,623
+        public static Op getOp(int i)Predicate.Op.i23,623
+        public Predicate.Op.public27,706
+        public String Predicate.Op.String27,706
+        public String toString(Predicate.Op.toString27,706
+    private int field;Predicate.field47,1290
+    private Op op;Predicate.op48,1313
+    private Field operand;Predicate.operand49,1332
+    public Predicate(Predicate.Predicate61,1649
+    public int getField(Predicate.getField70,1821
+    public Op getOp(Predicate.getOp77,1927
+    public Field getOperand(Predicate.getOperand84,2029
+    public boolean filter(Predicate.filter98,2497
+    public String toString(Predicate.toString107,2743
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Project.java,929
+public class Project 8,115
+    private static final long serialVersionUID Project.serialVersionUID10,156
+    private DbIterator child;Project.child11,209
+    private TupleDesc td;Project.td12,239
+    private ArrayList<Integer> outFieldIds;Project.outFieldIds13,265
+    public Project(Project.Project26,704
+    public Project(Project.Project31,886
+    public TupleDesc getTupleDesc(Project.getTupleDesc44,1327
+    public void open(Project.open48,1391
+    public void open() throws DbException, NoSuchElementException,Project.NoSuchElementException48,1391
+    public void close(Project.close54,1551
+    public void rewind(Project.rewind59,1630
+    protected Tuple fetchNext(Project.fetchNext69,1963
+            TransactionAbortedException,Project.TransactionAbortedException70,2026
+    public DbIterator[] getChildren(Project.getChildren84,2466
+    public void setChildren(Project.setChildren89,2575
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Query.java,1307
+public class Query 15,331
+    private static final long serialVersionUID Query.serialVersionUID17,377
+    transient private DbIterator op;Query.op19,431
+    transient private LogicalPlan logicalPlan;Query.logicalPlan20,468
+    TransactionId tid;Query.tid21,515
+    transient private boolean started Query.started22,538
+    public TransactionId getTransactionId(Query.getTransactionId24,586
+    public void setLogicalPlan(Query.setLogicalPlan28,664
+    public LogicalPlan getLogicalPlan(Query.getLogicalPlan32,751
+    public void setPhysicalPlan(Query.setPhysicalPlan36,833
+    public DbIterator getPhysicalPlan(Query.getPhysicalPlan40,911
+    public Query(Query.Query44,984
+    public Query(Query.Query48,1044
+    public void start(Query.start53,1140
+    public void start() throws IOException, DbException,Query.DbException53,1140
+    public TupleDesc getOutputTupleDesc(Query.getOutputTupleDesc60,1290
+    public boolean hasNext(Query.hasNext65,1440
+    public Tuple next(Query.next81,2027
+    public Tuple next() throws DbException, NoSuchElementException,Query.NoSuchElementException81,2027
+    public void close(Query.close90,2283
+    public void execute(Query.execute95,2380
+    public void execute() throws IOException, DbException,Query.DbException95,2380
+
+/media/stuff/git/cs186/proj/src/java/simpledb/QueryPlanVisualizer.java,1818
+public class QueryPlanVisualizer 8,134
+    static final String JOIN QueryPlanVisualizer.JOIN10,170
+    static final String HASH_JOIN QueryPlanVisualizer.HASH_JOIN11,208
+    static final String SELECT QueryPlanVisualizer.SELECT12,257
+    static final String PROJECT QueryPlanVisualizer.PROJECT13,296
+    static final String RENAME QueryPlanVisualizer.RENAME14,336
+    static final String SCAN QueryPlanVisualizer.SCAN15,375
+    static final String ORDERBY QueryPlanVisualizer.ORDERBY16,414
+    static final String GROUPBY QueryPlanVisualizer.GROUPBY17,453
+    static final String SPACE QueryPlanVisualizer.SPACE18,492
+    private int calculateQueryPlanTreeDepth(QueryPlanVisualizer.calculateQueryPlanTreeDepth20,531
+    private static class SubTreeDescriptor QueryPlanVisualizer.SubTreeDescriptor42,1226
+        int width;QueryPlanVisualizer.SubTreeDescriptor.width43,1271
+        int upBarPosition;QueryPlanVisualizer.SubTreeDescriptor.upBarPosition44,1290
+        SubTreeDescriptor leftChild;QueryPlanVisualizer.SubTreeDescriptor.leftChild45,1317
+        SubTreeDescriptor rightChild;QueryPlanVisualizer.SubTreeDescriptor.rightChild46,1354
+        int textStartPosition;QueryPlanVisualizer.SubTreeDescriptor.textStartPosition47,1392
+        String text;QueryPlanVisualizer.SubTreeDescriptor.text48,1423
+        int height;QueryPlanVisualizer.SubTreeDescriptor.height49,1444
+        SubTreeDescriptor(QueryPlanVisualizer.SubTreeDescriptor.SubTreeDescriptor51,1465
+    private SubTreeDescriptor buildTree(QueryPlanVisualizer.buildTree59,1668
+    private void printTree(QueryPlanVisualizer.printTree337,16840
+    public String getQueryPlanTree(QueryPlanVisualizer.getQueryPlanTree362,17918
+    public void printQueryPlanTree(QueryPlanVisualizer.printQueryPlanTree393,18960
+
+/media/stuff/git/cs186/proj/src/java/simpledb/RecordId.java,452
+public class RecordId 9,149
+    public PageId pid;RecordId.pid11,198
+    public int tupleno;RecordId.tupleno12,221
+    private static final long serialVersionUID RecordId.serialVersionUID14,246
+    public RecordId(RecordId.RecordId25,573
+    public int tupleno(RecordId.tupleno33,743
+    public PageId getPageId(RecordId.getPageId40,863
+    public boolean equals(RecordId.equals51,1102
+    public int hashCode(RecordId.hashCode64,1529
+
+/media/stuff/git/cs186/proj/src/java/simpledb/SeqScan.java,1053
+public class SeqScan 13,277
+    private static final long serialVersionUID SeqScan.serialVersionUID15,323
+    private TransactionId tid;SeqScan.tid20,440
+    private int tableId;SeqScan.tableId25,519
+    private String tableAlias;SeqScan.tableAlias30,580
+    private DbFileIterator i SeqScan.i35,676
+    public SeqScan(SeqScan.SeqScan53,1450
+    public String getTableName(SeqScan.getTableName64,1798
+    public String getAlias(SeqScan.getAlias71,1989
+    public void reset(SeqScan.reset88,2653
+    public SeqScan(SeqScan.SeqScan93,2779
+    public void open(SeqScan.open97,2912
+    public TupleDesc getTupleDesc(SeqScan.getTupleDesc111,3488
+    public boolean hasNext(SeqScan.hasNext143,4486
+    public Tuple next(SeqScan.next150,4638
+            TransactionAbortedException,SeqScan.TransactionAbortedException151,4693
+    public void close(SeqScan.close164,4995
+    public void rewind(SeqScan.rewind168,5046
+    public void rewind() throws DbException, NoSuchElementException,SeqScan.NoSuchElementException168,5046
+
+/media/stuff/git/cs186/proj/src/java/simpledb/SimpleDb.java,180
+public class SimpleDb 5,57
+    public static void main SimpleDb.main6,81
+            throws DbException, TransactionAbortedException,SimpleDb.TransactionAbortedException7,125
+
+/media/stuff/git/cs186/proj/src/java/simpledb/StringAggregator.java,941
+public class StringAggregator 9,175
+    private static final long serialVersionUID StringAggregator.serialVersionUID11,230
+    private int gbfield;StringAggregator.gbfield22,759
+    private Type gbfieldtype;StringAggregator.gbfieldtype23,784
+    private int afield;StringAggregator.afield24,814
+    private Op what;StringAggregator.what25,838
+    private HashMap<StringAggregator.HashMap26,859
+    private HashMap<Field, IntField> ret;StringAggregator.ret26,859
+    private IntField nogroup;StringAggregator.nogroup27,901
+    private int count;StringAggregator.count28,931
+    private TupleDesc td;StringAggregator.td29,954
+    public StringAggregator(StringAggregator.StringAggregator31,981
+    public void mergeTupleIntoGroup(StringAggregator.mergeTupleIntoGroup50,1525
+    private ArrayList<Tuple> maketuples(StringAggregator.maketuples69,1976
+    public DbIterator iterator(StringAggregator.iterator106,3112
+
+/media/stuff/git/cs186/proj/src/java/simpledb/StringField.java,626
+public class StringField 8,114
+	private static final long serialVersionUID StringField.serialVersionUID10,159
+	private String value;StringField.value12,210
+	private int maxSize;StringField.maxSize13,233
+	public String getValue(StringField.getValue15,256
+	public StringField(StringField.StringField27,455
+	public String toString(StringField.toString36,616
+	public int hashCode(StringField.hashCode40,664
+	public boolean equals(StringField.equals44,720
+	public void serialize(StringField.serialize56,1080
+	public boolean compare(StringField.compare77,1618
+	public Type getType(StringField.getType111,2166
+
+/media/stuff/git/cs186/proj/src/java/simpledb/StringHistogram.java,526
+public class StringHistogram 5,106
+    IntHistogram hist;StringHistogram.hist6,137
+    public StringHistogram(StringHistogram.StringHistogram13,409
+    private int stringToInt(StringHistogram.stringToInt20,656
+    int maxVal(StringHistogram.maxVal46,1332
+    int minVal(StringHistogram.minVal51,1456
+    public void addValue(StringHistogram.addValue56,1559
+    public double estimateSelectivity(StringHistogram.estimateSelectivity65,1879
+    public double avgSelectivity(StringHistogram.avgSelectivity78,2323
+
+/media/stuff/git/cs186/proj/src/java/simpledb/TableStats.java,2119
+public class TableStats StringHistogram.TableStats14,304
+    private static final ConcurrentHashMap<TableStats.ConcurrentHashMap16,331
+    private static final ConcurrentHashMap<String, TableStats> statsMap TableStats.statsMap16,331
+    static final int IOCOSTPERPAGE TableStats.IOCOSTPERPAGE18,451
+    private HashMap<TableStats.HashMap26,656
+    private HashMap<Integer, Integer> maxMap;TableStats.maxMap26,656
+    private HashMap<TableStats.HashMap29,790
+    private HashMap<Integer, Integer> minMap;TableStats.minMap29,790
+    private HashMap<TableStats.HashMap33,928
+    private HashMap<Integer, IntHistogram> setIntHistograms;TableStats.setIntHistograms33,928
+    private HashMap<TableStats.HashMap36,1078
+    private HashMap<Integer, StringHistogram> setStringHistograms;TableStats.setStringHistograms36,1078
+    private int tableId;TableStats.tableId38,1147
+    private int ioCostPerPage;TableStats.ioCostPerPage39,1172
+    private int countTuples;TableStats.countTuples40,1203
+    private HeapFile hfile;TableStats.hfile43,1262
+    public static TableStats getTableStats(TableStats.getTableStats46,1296
+    public static void setTableStats(TableStats.setTableStats50,1406
+    public static void setStatsMap(TableStats.setStatsMap54,1532
+    public static Map<TableStats.Map71,2115
+    public static Map<String, TableStats> getStatsMap(TableStats.getStatsMap71,2115
+    public static void computeStatistics(TableStats.computeStatistics75,2205
+    static final int NUM_HIST_BINS TableStats.NUM_HIST_BINS89,2754
+    public TableStats(TableStats.TableStats101,3166
+    private void makeHistograms(TableStats.makeHistograms128,4322
+    private void getStatistics(TableStats.getStatistics177,6077
+    public double estimateScanCost(TableStats.estimateScanCost223,7512
+    public int estimateTableCardinality(TableStats.estimateTableCardinality238,8048
+    public double avgSelectivity(TableStats.avgSelectivity253,8633
+    public double estimateSelectivity(TableStats.estimateSelectivity271,9216
+    public int totalTuples(TableStats.totalTuples290,9982
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Transaction.java,484
+public class Transaction 10,163
+    private final TransactionId tid;Transaction.tid11,190
+    volatile boolean started Transaction.started12,227
+    public Transaction(Transaction.Transaction14,266
+    public void start(Transaction.start19,376
+    public TransactionId getId(Transaction.getId28,580
+    public void commit(Transaction.commit33,676
+    public void abort(Transaction.abort38,799
+    public void transactionComplete(Transaction.transactionComplete43,946
+
+/media/stuff/git/cs186/proj/src/java/simpledb/TransactionAbortedException.java,249
+public class TransactionAbortedException 6,112
+    private static final long serialVersionUID TransactionAbortedException.serialVersionUID7,173
+    public TransactionAbortedException(TransactionAbortedException.TransactionAbortedException9,227
+
+/media/stuff/git/cs186/proj/src/java/simpledb/TransactionId.java,436
+public class TransactionId 9,179
+	private static final long serialVersionUID TransactionId.serialVersionUID11,233
+	static AtomicLong counter TransactionId.counter13,285
+    long myid;TransactionId.myid14,333
+    public TransactionId(TransactionId.TransactionId16,349
+    public long getId(TransactionId.getId20,427
+    public boolean equals(TransactionId.equals24,481
+    public int hashCode(TransactionId.hashCode28,578
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Tuple.java,697
+public class Tuple 12,296
+    private static final long serialVersionUID Tuple.serialVersionUID14,342
+    private Field[] tupleFields;Tuple.tupleFields19,446
+    private TupleDesc tupleSchema;Tuple.tupleSchema24,531
+    private RecordId recordId;Tuple.recordId29,622
+    public Tuple(Tuple.Tuple38,880
+    public TupleDesc getTupleDesc(Tuple.getTupleDesc47,1090
+    public RecordId getRecordId(Tuple.getRecordId55,1284
+    public void setRecordId(Tuple.setRecordId65,1497
+    public void setField(Tuple.setField77,1801
+    public Field getField(Tuple.getField92,2117
+    public String toString(Tuple.toString104,2475
+    public Iterator<Field> fields(Tuple.fields117,2827
+
+/media/stuff/git/cs186/proj/src/java/simpledb/TupleDesc.java,1265
+public class TupleDesc 9,123
+    public static class TDItem TupleDesc.TDItem14,266
+        Type fieldType;TupleDesc.TDItem.fieldType21,441
+        String fieldName;TupleDesc.TDItem.fieldName26,533
+        public TDItem(TupleDesc.TDItem.TDItem28,560
+        public String toString(TupleDesc.TDItem.toString33,677
+    public ArrayList<TDItem> TDList;TupleDesc.TDList38,783
+    public int byteSize;TupleDesc.byteSize39,820
+    public Iterator<TDItem> iterator(TupleDesc.iterator46,997
+    private static final long serialVersionUID TupleDesc.serialVersionUID50,1077
+    public TupleDesc(TupleDesc.TupleDesc63,1576
+    public TupleDesc(TupleDesc.TupleDesc81,2204
+    public int numFields(TupleDesc.numFields88,2361
+    public String getFieldName(TupleDesc.getFieldName101,2753
+    private void checkAccess(TupleDesc.checkAccess106,2880
+    public Type getFieldType(TupleDesc.getFieldType121,3364
+    public int fieldNameToIndex(TupleDesc.fieldNameToIndex135,3799
+    public int getSize(TupleDesc.getSize148,4267
+    public static TupleDesc merge(TupleDesc.merge162,4718
+    public boolean equals(TupleDesc.equals186,5651
+    public int hashCode(TupleDesc.hashCode196,6028
+    public String toString(TupleDesc.toString213,6488
+
+/media/stuff/git/cs186/proj/src/java/simpledb/TupleIterator.java,654
+public class TupleIterator 8,107
+    private static final long serialVersionUID TupleIterator.serialVersionUID12,176
+    Iterator<Tuple> i TupleIterator.i13,229
+    TupleDesc td TupleIterator.td14,259
+    Iterable<Tuple> tuples TupleIterator.tuples15,284
+    public TupleIterator(TupleIterator.TupleIterator24,513
+    public void open(TupleIterator.open36,896
+    public boolean hasNext(TupleIterator.hasNext40,959
+    public Tuple next(TupleIterator.next45,1055
+    public void rewind(TupleIterator.rewind49,1113
+    public TupleDesc getTupleDesc(TupleIterator.getTupleDesc54,1180
+    public void close(TupleIterator.close58,1244
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Type.java,1004
+public enum Type 11,215
+    INT_TYPE(Type.INT_TYPE12,258
+    }, STRING_TYPE(Type.STRING_TYPE27,643
+    public Type.public47,1241
+    public static Type.static47,1241
+    public static final Type.final47,1241
+    public static final int Type.int47,1241
+    public static final int STRING_LEN Type.STRING_LEN47,1241
+    public Type.public52,1373
+    public abstract Type.abstract52,1373
+    public abstract int Type.int52,1373
+    public abstract int getLen(Type.getLen52,1373
+    public Type.public61,1698
+    public abstract Type.abstract61,1698
+    public abstract Field Type.Field61,1698
+    public abstract Field parse(Type.parse61,1698
+    public abstract Field parse(DataInputStream Type.DataInputStream61,1698
+    public abstract Field parse(DataInputStream dis)Type.dis61,1698
+    public abstract Field parse(DataInputStream dis) throws Type.throws61,1698
+    public abstract Field parse(DataInputStream dis) throws ParseException;Type.ParseException61,1698
+
+/media/stuff/git/cs186/proj/src/java/simpledb/Utility.java,849
+public class Utility 8,162
+    public static Type[] getTypes(Utility.getTypes12,272
+    public static String[] getStrings(Utility.getStrings23,644
+    public static TupleDesc getTupleDesc(Utility.getTupleDesc34,981
+    public static TupleDesc getTupleDesc(Utility.getTupleDesc41,1194
+    public static Tuple getHeapTuple(Utility.getHeapTuple49,1416
+    public static Tuple getHeapTuple(Utility.getHeapTuple60,1771
+    public static Tuple getHeapTuple(Utility.getHeapTuple72,2211
+    public static Tuple getTuple(Utility.getTuple86,2734
+    public static HeapFile createEmptyHeapFile(Utility.createEmptyHeapFile103,3421
+    public static HeapFile openHeapFile(Utility.openHeapFile133,4361
+    public static HeapFile openHeapFile(Utility.openHeapFile141,4665
+    public static String listToString(Utility.listToString149,4994

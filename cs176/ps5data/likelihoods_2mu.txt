@@ -1,0 +1,3 @@
+# Likelihood under {initial, estimated} parameters
+-1133.703136
+-1129.003938
